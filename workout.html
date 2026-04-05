@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โปรแกรมฝึก Calisthenics ส่วนตัว</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Noto+Serif+Thai:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- เพิ่มฟอนต์ Prompt จาก Google Fonts เข้ามา -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sarabun:wght@300;400;500;600;700;800&family=Noto+Serif+Thai:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             /* ธีม Premium Dark Fitness */
@@ -28,7 +29,7 @@
         }
 
         body {
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'Prompt', 'Sarabun', sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
             line-height: 1.6;
@@ -43,7 +44,7 @@
         /* Header สุดเท่ */
         header {
             background: linear-gradient(180deg, rgba(24,24,27,0.9) 0%, rgba(9,9,11,0.9) 100%);
-            padding: 3rem 1rem 2rem; /* ปรับลดขนาดบนมือถือ */
+            padding: 3rem 1rem 2rem;
             text-align: center;
             border-bottom: 1px solid var(--border);
             position: relative;
@@ -64,8 +65,8 @@
         }
 
         header h1 {
-            font-family: 'Noto Serif Thai', serif;
-            font-size: 2rem; /* ปรับลดขนาดบนมือถือ */
+            font-family: 'Prompt', 'Noto Serif Thai', serif;
+            font-size: 2.5rem;
             font-weight: 800;
             color: var(--text-main);
             text-transform: uppercase;
@@ -103,7 +104,7 @@
             gap: 12px;
             padding: 5px 0;
             scrollbar-width: none;
-            -webkit-overflow-scrolling: touch; /* เพิ่มความสมูทเวลาปัดบน iOS/มือถือ */
+            -webkit-overflow-scrolling: touch;
         }
         
         .day-slider::-webkit-scrollbar { display: none; }
@@ -113,8 +114,8 @@
             border: 1px solid var(--border);
             color: var(--text-muted);
             padding: 10px 24px;
-            border-radius: 9999px; /* Pill shape */
-            font-family: 'Sarabun', sans-serif;
+            border-radius: 9999px;
+            font-family: 'Prompt', 'Sarabun', sans-serif;
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
@@ -140,7 +141,7 @@
             max-width: 900px;
             margin: 40px auto;
             padding: 0 15px;
-            min-height: 500px; /* ป้องกัน layout กระตุกตอนโหลด */
+            min-height: 500px;
         }
 
         /* Animation class */
@@ -160,27 +161,112 @@
         }
 
         .day-header {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-align: center;
         }
 
         .day-header h2 {
-            font-family: 'Noto Serif Thai', serif;
-            font-size: 1.6rem; /* ปรับลดขนาดบนมือถือ */
+            font-family: 'Prompt', 'Noto Serif Thai', serif;
+            font-size: 1.8rem;
             color: var(--accent);
             margin-bottom: 8px;
         }
 
         .day-header p {
             color: var(--text-muted);
-            font-size: 1rem; /* ปรับลดขนาดบนมือถือ */
+            font-size: 1.1rem;
+        }
+
+        /* Progress System UI */
+        .daily-progress {
+            background: linear-gradient(145deg, var(--bg-card) 0%, #111 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--rad);
+            padding: 20px 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-header .title {
+            font-size: 1.25rem;
+            font-family: 'Prompt', 'Noto Serif Thai', serif;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-header .title svg {
+            color: var(--accent);
+        }
+
+        .progress-stats {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-left: 5px;
+            font-family: 'Prompt', 'Sarabun', sans-serif;
+            font-weight: 400;
+        }
+
+        .progress-percent {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: 'Prompt', 'Noto Serif Thai', serif;
+        }
+
+        .progress-track {
+            height: 10px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ca8a04, #fde047);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px var(--accent-glow);
+            border-radius: 10px;
+        }
+
+        .reset-btn {
+            margin-top: 15px;
+            background: transparent;
+            border: 1px solid #3f3f46;
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Prompt', 'Sarabun', sans-serif;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-main);
+            border-color: var(--text-muted);
         }
 
         /* Exercise Cards */
         .exercise-list {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* ลดช่องว่างระหว่างการ์ดบนมือถือ */
+            gap: 20px;
         }
 
         .exercise-card {
@@ -194,15 +280,14 @@
         }
 
         .exercise-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px -10px var(--accent-glow);
+            border-color: #3f3f46;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
         /* Image Container */
         .card-img-container {
             width: 100%;
-            height: 200px; /* ลดความสูงรูปภาพบนมือถือ จะได้ไม่กินพื้นที่จอเกินไป */
+            height: 200px;
             background: #000;
             position: relative;
             overflow: hidden;
@@ -228,7 +313,7 @@
         }
 
         .exercise-card:hover .card-img-container img {
-            transform: scale(1.08);
+            transform: scale(1.05);
             opacity: 1;
         }
 
@@ -239,7 +324,7 @@
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(4px);
             color: var(--accent);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 700;
             padding: 6px 14px;
             border-radius: 9999px;
@@ -255,8 +340,8 @@
             align-items: center;
             justify-content: center;
             color: var(--text-muted);
-            font-family: 'Noto Serif Thai', serif;
-            font-size: 1.5rem;
+            font-family: 'Prompt', 'Noto Serif Thai', serif;
+            font-size: 1.6rem;
             font-weight: 700;
             opacity: 0;
             z-index: 1;
@@ -268,7 +353,7 @@
 
         /* Card Content Box */
         .card-content {
-            padding: 20px 15px; /* ปรับระยะขอบเนื้อหาบนมือถือให้พอดีขึ้น */
+            padding: 20px 15px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -279,15 +364,15 @@
         .card-header {
             display: flex;
             flex-direction: column;
-            gap: 10px; /* ลดระยะห่างบนมือถือ */
+            gap: 10px;
             margin-bottom: 15px;
         }
 
         .card-title h3 {
             color: var(--text-main);
-            font-size: 1.4rem; /* ลดขนาดตัวอักษรชื่อท่าบนมือถือ */
+            font-size: 1.5rem;
             font-weight: 800;
-            font-family: 'Noto Serif Thai', serif;
+            font-family: 'Prompt', 'Noto Serif Thai', serif;
             line-height: 1.2;
         }
 
@@ -298,7 +383,7 @@
             padding: 6px 16px;
             border-radius: 8px;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 1.05rem;
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -306,7 +391,7 @@
 
         /* Instructions */
         .instructions h4 {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: var(--text-muted);
             margin-bottom: 12px;
@@ -335,7 +420,7 @@
         .instructions li {
             position: relative;
             padding-left: 24px;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #d4d4d8;
             font-weight: 400;
             line-height: 1.6;
@@ -356,16 +441,189 @@
             font-weight: 600;
         }
 
+        /* Task Sets Checkboxes */
+        .sets-container {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .sets-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sets-title svg {
+            color: var(--text-muted);
+        }
+
+        .sets-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .set-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #000;
+            border: 2px solid var(--border);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Prompt', 'Sarabun', sans-serif;
+            position: relative;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .set-btn:hover:not(.completed) {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .set-btn.completed {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: scale(1.05);
+        }
+
+        .set-btn.completed span {
+            display: none;
+        }
+
+        .set-btn.completed::after {
+            content: "✓";
+            font-size: 1.3rem;
+            font-weight: 900;
+        }
+
+        /* Quest Board System (รวมหลอดภารกิจ) */
+        .sub-quests-list {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #3f3f46;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mini-quest {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px 10px;
+            border-radius: 6px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .mini-quest:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #3f3f46;
+        }
+
+        .mini-quest-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mini-quest-title {
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .mini-quest-title.cleared {
+            color: var(--accent);
+        }
+
+        .mini-quest-status {
+            color: var(--text-muted);
+            font-family: 'Prompt', 'Sarabun', sans-serif;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+
+        .mini-quest-bar {
+            height: 6px;
+            background: #18181b;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #27272a;
+        }
+
+        .mini-quest-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .exercise-card {
+            position: relative;
+            z-index: 1;
+        }
+
+        .exercise-card.cleared {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.15);
+        }
+
+        .clear-stamp {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg) scale(2);
+            color: rgba(234, 179, 8, 0.1);
+            font-size: 4.5rem;
+            font-weight: 900;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Prompt', 'Noto Serif Thai', serif;
+            letter-spacing: 10px;
+            z-index: 0;
+            text-transform: uppercase;
+        }
+
+        .exercise-card.cleared .clear-stamp {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(-15deg) scale(1);
+        }
+
+        .exercise-card.cleared .card-title h3 {
+            color: var(--accent);
+        }
+
         /* Tips Section */
         .tips-section {
             max-width: 900px;
-            margin: 40px auto 20px auto; /* ลดระยะห่างบนขอบจอมือถือ */
+            margin: 40px auto 20px auto;
             padding: 0 15px;
         }
         
         .tips-card {
             background: linear-gradient(135deg, var(--bg-card) 0%, #000 100%);
-            padding: 25px 20px; /* ลดขอบเขตข้างในลดมาหน่อยบนมือถือ */
+            padding: 25px 20px;
             border-radius: var(--rad);
             border: 1px solid var(--border);
             position: relative;
@@ -385,8 +643,8 @@
         .tips-card h3 {
             color: var(--text-main);
             margin-bottom: 15px;
-            font-family: 'Noto Serif Thai', serif;
-            font-size: 1.5rem; /* ลดขนาดบนมือถือ */
+            font-family: 'Prompt', 'Noto Serif Thai', serif;
+            font-size: 1.6rem;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -406,7 +664,7 @@
         .tips-card li {
             padding-left: 35px;
             position: relative;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: #d4d4d8;
             line-height: 1.6;
         }
@@ -429,22 +687,19 @@
 
         /* Responsive Desktop */
         @media (min-width: 768px) {
-            /* คืนค่าขนาดใหญ่กลับมาสำหรับหน้าจอคอมพิวเตอร์และแท็บเล็ต */
             header { padding: 4rem 1.5rem 3rem; }
-            header h1 { font-size: 2.5rem; }
+            header h1 { font-size: 3rem; }
             
-            .day-header h2 { font-size: 2rem; }
-            .day-header p { font-size: 1.1rem; }
+            .day-header h2 { font-size: 2.2rem; }
+            .day-header p { font-size: 1.2rem; }
             
             .exercise-list { gap: 25px; }
 
-            .exercise-card {
-                flex-direction: row;
-            }
+            .exercise-card { flex-direction: row; }
             .card-img-container {
                 width: 380px;
                 height: auto;
-                min-height: 300px;
+                min-height: 320px;
                 flex-shrink: 0;
             }
             .card-img-container::after {
@@ -452,9 +707,7 @@
                 inset: 0 auto 0 0;
                 width: 100%;
             }
-            .card-content {
-                padding: 25px 30px;
-            }
+            .card-content { padding: 25px 30px; }
             .card-header {
                 flex-direction: row;
                 justify-content: space-between;
@@ -462,9 +715,7 @@
                 gap: 15px;
                 margin-bottom: 20px;
             }
-            .card-title h3 {
-                font-size: 1.6rem;
-            }
+            .card-title h3 { font-size: 1.8rem; }
             .reps-badge {
                 align-self: flex-start;
                 margin-top: 5px;
@@ -472,7 +723,7 @@
 
             .tips-section { margin-top: 60px; }
             .tips-card { padding: 40px; }
-            .tips-card h3 { font-size: 1.8rem; margin-bottom: 25px; }
+            .tips-card h3 { font-size: 2rem; margin-bottom: 25px; }
         }
     </style>
 </head>
@@ -495,8 +746,9 @@
 
     <div class="tips-section">
         <div class="tips-card">
-            <h3><span>✦</span> โภชนาการสายประหยัด (Lean Bulk)</h3>
+            <h3><span>✦</span> โภชนาการสายประหยัด & การใช้งาน</h3>
             <ul>
+                <li><strong>ระบบภารกิจ:</strong> คุณสามารถกดคลิกที่ตัวเลข (เซต) ในแต่ละท่าเพื่อบันทึกความสำเร็จได้ ระบบจะจำสถานะการฝึกไว้ให้ในเครื่องของคุณ</li>
                 <li><strong>ข้าวมันไก่:</strong> สั่ง "อกล้วน ไม่หนัง พิเศษเนื้อ" (ลดมัน เพิ่มโปรตีน)</li>
                 <li><strong>อาหารตามสั่ง:</strong> สั่งพิเศษเนื้อสัตว์ และ "เพิ่มไข่ต้ม/ไข่ดาว 2 ฟอง" เสมอ</li>
                 <li><strong>ไอเทมเสริม:</strong> ซื้อไข่ไก่ยกแผงมาต้มกินเสริมวันละ 3-4 ฟอง จะช่วยให้ได้โปรตีนครบง่ายขึ้น</li>
@@ -506,7 +758,7 @@
     </div>
 
     <script>
-        // ข้อมูลตารางการฝึก (คงเดิม)
+        // ข้อมูลตารางการฝึก
         const workoutData = {
             1: {
                 id: 'mon',
@@ -640,7 +892,7 @@
                     {
                         name: 'Handstand Practice',
                         muscle: 'ไหล่ / บาลานซ์',
-                        reps: 'ฝึก 10-15 นาที',
+                        reps: 'ฝึก 15 นาที',
                         img: 'https://yellowdude.co/wp-content/uploads/2021/04/Handstand-Wall.gif',
                         instructions: [
                             'หันหน้าเข้ากำแพง (Wall Walk) แล้วเดินมือเข้าไปใกล้ๆ กำแพง',
@@ -770,7 +1022,7 @@
                     {
                         name: 'Light Cycling / Stretching',
                         muscle: 'ทั่วร่างกาย',
-                        reps: '30-45 นาที',
+                        reps: 'ออกกำลัง 30-45 นาที',
                         img: 'https://yellowdude.co/wp-content/uploads/2021/04/Stretching.gif',
                         instructions: [
                             'ปั่นจักรยานด้วยความเร็วสบายๆ ไม่หอบ (Zone 2)',
@@ -789,7 +1041,7 @@
                     {
                         name: 'Rest & Recover',
                         muscle: 'ร่างกายและจิตใจ',
-                        reps: 'พักให้เต็มที่',
+                        reps: 'พักผ่อน 1 วันเต็ม',
                         img: 'https://yellowdude.co/wp-content/uploads/2021/04/Rest.gif',
                         instructions: [
                             'วันนี้นอนพักผ่อนให้เต็มที่',
@@ -801,6 +1053,162 @@
             }
         };
 
+        // --- State Management (Progress System) ---
+        let appState = {
+            progress: {} // รูปแบบ { dayNum: { exerciseName: [true, false, true...] } }
+        };
+
+        let currentActiveDay = null;
+
+        function getSetCount(repsString) {
+            const match = repsString.match(/(\d+)\s*เซต/);
+            return match ? parseInt(match[1]) : 1; // ถ้าไม่มีคำว่า "เซต" ให้มีปุ่มเดียว
+        }
+
+        function escapeId(str) {
+            return str.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+        }
+
+        function initProgressState() {
+            appState.progress = {};
+            Object.keys(workoutData).forEach(day => {
+                appState.progress[day] = {};
+                workoutData[day].exercises.forEach(ex => {
+                    const setsCount = getSetCount(ex.reps);
+                    appState.progress[day][ex.name] = Array(setsCount).fill(false);
+                });
+            });
+            saveState();
+        }
+
+        function checkAndRepairState() {
+            let modified = false;
+            Object.keys(workoutData).forEach(day => {
+                if (!appState.progress[day]) {
+                    appState.progress[day] = {};
+                    modified = true;
+                }
+                workoutData[day].exercises.forEach(ex => {
+                    if (!appState.progress[day][ex.name]) {
+                        const setsCount = getSetCount(ex.reps);
+                        appState.progress[day][ex.name] = Array(setsCount).fill(false);
+                        modified = true;
+                    }
+                });
+            });
+            if (modified) saveState();
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('calisthenicsProgressV2');
+                if (saved) {
+                    appState = JSON.parse(saved);
+                    checkAndRepairState();
+                } else {
+                    initProgressState();
+                }
+            } catch (e) {
+                console.error("Failed to load state", e);
+                initProgressState();
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('calisthenicsProgressV2', JSON.stringify(appState));
+        }
+
+        function resetDay(dayNum) {
+            if (confirm('คุณต้องการลบข้อมูลความคืบหน้าของ "วันนี้" เพื่อเริ่มต้นใหม่ใช่หรือไม่?')) {
+                workoutData[dayNum].exercises.forEach(ex => {
+                    const setsCount = getSetCount(ex.reps);
+                    appState.progress[dayNum][ex.name] = Array(setsCount).fill(false);
+                });
+                saveState();
+                selectDay(dayNum); // Re-render หน้า
+            }
+        }
+
+        function toggleSet(dayNum, exName, setIndex) {
+            appState.progress[dayNum][exName][setIndex] = !appState.progress[dayNum][exName][setIndex];
+            saveState();
+            
+            const exId = escapeId(exName);
+            
+            // อัปเดต UI ปุ่มแบบไม่ต้องโหลดหน้าใหม่ทั้งหมด
+            const btnId = `btn-set-${dayNum}-${exId}-${setIndex}`;
+            const btn = document.getElementById(btnId);
+            if (btn) {
+                if (appState.progress[dayNum][exName][setIndex]) {
+                    btn.classList.add('completed');
+                } else {
+                    btn.classList.remove('completed');
+                }
+            }
+            
+            // --- อัปเดตภารกิจย่อยใน Quest Board ด้านบน ---
+            const sets = appState.progress[dayNum][exName];
+            const total = sets.length;
+            const completed = sets.filter(s => s).length;
+            const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+            
+            const miniFillEl = document.getElementById(`mini-fill-${dayNum}-${exId}`);
+            const miniTextEl = document.getElementById(`mini-text-${dayNum}-${exId}`);
+            const miniTitleEl = document.getElementById(`mini-title-${dayNum}-${exId}`);
+            const cardEl = document.getElementById(`card-${dayNum}-${exId}`);
+            
+            if (miniFillEl) miniFillEl.style.width = `${percent}%`;
+            if (miniTextEl) miniTextEl.innerText = `${completed}/${total} SETS`;
+            
+            if (miniTitleEl) {
+                if (completed === total) {
+                    miniTitleEl.classList.add('cleared');
+                    miniTitleEl.innerHTML = `✨ ${exName}`;
+                } else {
+                    miniTitleEl.classList.remove('cleared');
+                    miniTitleEl.innerHTML = exName;
+                }
+            }
+            
+            if (cardEl) {
+                if (completed === total) {
+                    cardEl.classList.add('cleared');
+                } else {
+                    cardEl.classList.remove('cleared');
+                }
+            }
+            
+            // อัปเดตหลอดความคืบหน้าหลัก
+            updateProgressBar(dayNum);
+        }
+
+        function updateProgressBar(dayNum) {
+            const dayProgress = appState.progress[dayNum];
+            if (!dayProgress) return;
+            
+            let totalSets = 0;
+            let completedSets = 0;
+            
+            for (const ex in dayProgress) {
+                dayProgress[ex].forEach(isDone => {
+                    totalSets++;
+                    if (isDone) completedSets++;
+                });
+            }
+            
+            const percentage = totalSets === 0 ? 0 : Math.round((completedSets / totalSets) * 100);
+            
+            const fillEl = document.getElementById('progress-fill-bar');
+            const textEl = document.getElementById('progress-text');
+            const percentEl = document.getElementById('progress-percent');
+            
+            if (fillEl) fillEl.style.width = `${percentage}%`;
+            if (textEl) textEl.innerText = `(${completedSets}/${totalSets})`;
+            if (percentEl) percentEl.innerText = `${percentage}%`;
+        }
+
+        // --- UI Rendering ---
+        
         // Render Tabs
         const slider = document.getElementById('day-slider');
         Object.keys(workoutData).forEach(dayNum => {
@@ -817,15 +1225,17 @@
             img.classList.add('error');
         }
 
-        // Render Content
         function selectDay(dayNum) {
+            currentActiveDay = dayNum;
+            
             // Update Navigation
             document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
             const activeBtn = document.getElementById(`btn-${dayNum}`);
-            activeBtn.classList.add('active');
-            
-            // Auto scroll to active button on mobile
-            activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                // Auto scroll to active button on mobile
+                activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            }
 
             const data = workoutData[dayNum];
             const container = document.getElementById('main-content');
@@ -835,19 +1245,113 @@
             void container.offsetWidth; // Trigger reflow
             container.classList.add('fade-in');
 
+            // --- คำนวณความคืบหน้าของวันนี้ และสร้าง Quest Board ---
+            let totalSets = 0;
+            let completedSets = 0;
+            const dayProgress = appState.progress[dayNum];
+            
+            let subQuestsHtml = `<div class="sub-quests-list">`;
+            
+            if (dayProgress) {
+                data.exercises.forEach(ex => {
+                    const exId = escapeId(ex.name);
+                    const sets = dayProgress[ex.name] || [];
+                    const tSets = sets.length;
+                    const cSets = sets.filter(s => s).length;
+                    const pct = tSets === 0 ? 0 : Math.round((cSets / tSets) * 100);
+                    
+                    totalSets += tSets;
+                    completedSets += cSets;
+
+                    const titleColorClass = cSets === tSets ? 'cleared' : '';
+
+                    subQuestsHtml += `
+                        <div class="mini-quest" onclick="document.getElementById('card-${dayNum}-${exId}').scrollIntoView({behavior: 'smooth', block: 'center'})" title="คลิกเพื่อเลื่อนไปที่ท่านี้">
+                            <div class="mini-quest-header">
+                                <div class="mini-quest-title ${titleColorClass}" id="mini-title-${dayNum}-${exId}">
+                                    ${cSets === tSets ? '✨ ' : ''}${ex.name}
+                                </div>
+                                <div class="mini-quest-status" id="mini-text-${dayNum}-${exId}">${cSets}/${tSets} SETS</div>
+                            </div>
+                            <div class="mini-quest-bar">
+                                <div class="mini-quest-fill" id="mini-fill-${dayNum}-${exId}" style="width: ${pct}%"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            subQuestsHtml += `</div>`;
+            
+            const percentage = totalSets === 0 ? 0 : Math.round((completedSets / totalSets) * 100);
+
+            // --- สร้าง HTML ส่วนหัว และหลอดความคืบหน้า ---
             let html = `
                 <div class="day-header">
                     <h2>วัน${data.name}: ${data.title}</h2>
                     <p>${data.subtitle}</p>
                 </div>
+                
+                <div class="daily-progress">
+                    <div class="progress-header">
+                        <div class="title">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            ความคืบหน้าวันนี้
+                            <span class="progress-stats" id="progress-text">(${completedSets}/${totalSets})</span>
+                        </div>
+                        <div class="progress-percent" id="progress-percent">${percentage}%</div>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progress-fill-bar" style="width: ${percentage}%;"></div>
+                    </div>
+                    
+                    <!-- Quest Board (รวมหลอดทุกท่า) -->
+                    ${subQuestsHtml}
+
+                    <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+                        <button class="reset-btn" onclick="resetDay(${dayNum})">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                            เริ่มใหม่
+                        </button>
+                    </div>
+                </div>
+                
                 <div class="exercise-list">
             `;
 
+            // --- สร้าง HTML ของแต่ละท่า ---
             data.exercises.forEach(ex => {
                 let instHtml = ex.instructions.map(inst => `<li>${inst.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('');
                 
+                // สร้างปุ่ม (วงกลม) ตามจำนวนเซต
+                const setsCount = getSetCount(ex.reps);
+                const exId = escapeId(ex.name);
+                let setsHtml = '';
+                
+                let exCompletedSets = 0;
+                
+                for (let i = 0; i < setsCount; i++) {
+                    const isDone = appState.progress[dayNum][ex.name][i];
+                    if (isDone) exCompletedSets++;
+                    const isCompletedClass = isDone ? 'completed' : '';
+                    // ใช้ escape string ตรง onclick ให้ปลอดภัย
+                    setsHtml += `
+                        <button 
+                            class="set-btn ${isCompletedClass}" 
+                            id="btn-set-${dayNum}-${exId}-${i}"
+                            onclick="toggleSet(${dayNum}, '${ex.name}', ${i})"
+                            title="เซตที่ ${i + 1}"
+                        >
+                            <span>${i + 1}</span>
+                        </button>
+                    `;
+                }
+
+                const isCleared = exCompletedSets === setsCount;
+                const clearedClass = isCleared ? 'cleared' : '';
+                
                 html += `
-                    <div class="exercise-card">
+                    <div class="exercise-card ${clearedClass}" id="card-${dayNum}-${exId}">
+                        <div class="clear-stamp">CLEARED</div>
                         <div class="card-img-container">
                             <span class="target-muscle">${ex.muscle}</span>
                             <img src="${ex.img}" alt="${ex.name}" onerror="handleImageError(this)">
@@ -869,6 +1373,17 @@
                                     ${instHtml}
                                 </ul>
                             </div>
+                            
+                            <div class="sets-container">
+                                <div class="sets-title">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    บันทึกภารกิจ (เช็คแต่ละเซต):
+                                </div>
+                                <div class="sets-row">
+                                    ${setsHtml}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 `;
@@ -878,7 +1393,9 @@
             container.innerHTML = html;
         }
 
-        // Initialize (Select current day, or Monday if Sunday)
+        // Initialize App
+        loadState(); // โหลดข้อมูล Progress ก่อน
+
         let currentDay = new Date().getDay(); // 0 is Sunday, 1 is Monday
         if (currentDay === 0) currentDay = 7;
         selectDay(currentDay);
