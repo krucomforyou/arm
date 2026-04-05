@@ -191,7 +191,6 @@
             flex-direction: column;
             transition: var(--transition);
             overflow: hidden;
-            position: relative;
         }
 
         .exercise-card:hover {
@@ -292,82 +291,17 @@
             line-height: 1.2;
         }
 
-        .reps-and-ai {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
         .reps-badge {
+            align-self: flex-start;
             background: var(--accent);
             color: #000;
-            padding: 6px 12px;
+            padding: 6px 16px;
             border-radius: 8px;
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 1rem;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        /* AI Buttons and Components */
-        .ai-btn {
-            background: rgba(234, 179, 8, 0.1);
-            color: var(--accent);
-            border: 1px solid rgba(234, 179, 8, 0.5);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Sarabun', sans-serif;
-        }
-
-        .ai-btn:hover:not(:disabled) {
-            background: var(--accent);
-            color: #000;
-            box-shadow: 0 2px 10px var(--accent-glow);
-        }
-        
-        .ai-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .ai-response-box {
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-left: 3px solid var(--accent);
-            border-radius: 6px;
-            font-size: 0.95rem;
-            color: #e4e4e7;
-            display: none;
-            line-height: 1.6;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .ai-response-box.active {
-            display: block;
-        }
-
-        .ai-loading {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid currentColor;
-            border-right-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.75s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            gap: 8px;
         }
 
         /* Instructions */
@@ -467,7 +401,6 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            margin-bottom: 20px;
         }
 
         .tips-card li {
@@ -494,15 +427,9 @@
             border-radius: 4px;
         }
 
-        .ai-meal-generator {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px dashed var(--border);
-            text-align: center;
-        }
-
         /* Responsive Desktop */
         @media (min-width: 768px) {
+            /* คืนค่าขนาดใหญ่กลับมาสำหรับหน้าจอคอมพิวเตอร์และแท็บเล็ต */
             header { padding: 4rem 1.5rem 3rem; }
             header h1 { font-size: 2.5rem; }
             
@@ -538,17 +465,14 @@
             .card-title h3 {
                 font-size: 1.6rem;
             }
-            .reps-and-ai {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
+            .reps-badge {
+                align-self: flex-start;
+                margin-top: 5px;
             }
 
             .tips-section { margin-top: 60px; }
             .tips-card { padding: 40px; }
             .tips-card h3 { font-size: 1.8rem; margin-bottom: 25px; }
-            
-            .ai-meal-generator { text-align: left; }
         }
     </style>
 </head>
@@ -578,122 +502,11 @@
                 <li><strong>ไอเทมเสริม:</strong> ซื้อไข่ไก่ยกแผงมาต้มกินเสริมวันละ 3-4 ฟอง จะช่วยให้ได้โปรตีนครบง่ายขึ้น</li>
                 <li><strong>การปั่นจักรยาน:</strong> หากรู้สึกว่าตัวซูบหรือผอมลง ให้ลดระยะทาง/ความเร็วในการปั่นลง เพื่อเก็บแรงไว้สร้างกล้ามเนื้อ</li>
             </ul>
-
-            <div class="ai-meal-generator">
-                <button class="ai-btn" onclick="generateAIMeal(this)" style="font-size: 1rem; padding: 10px 20px;">
-                    ✨ ให้ AI สุ่มเมนูอาหาร Lean Bulk ของวันนี้
-                </button>
-                <div id="ai-meal-result" class="ai-response-box" style="text-align: left;"></div>
-            </div>
         </div>
     </div>
 
     <script>
-        // --- Gemini API Configuration ---
-        const apiKey = "AIzaSyCo_byoW3Jt0Vm7DcTsIOBxQ2ceiIRNTII"; // ปล่อยเป็นค่าว่างไว้หากคุณกำลังทดสอบบนเว็บไซต์นี้
-        
-        async function callGeminiAPI(prompt) {
-            // การใช้งานในเว็บนี้ (Canvas) จำเป็นต้องใช้โมเดล gemini-2.5-flash-preview-09-2025
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: "You are an expert fitness and nutrition coach. Answer concisely and use clear formatting." }] }
-            };
-
-            const delays = [1000, 2000, 4000, 8000, 16000];
-            let lastError = null;
-
-            for (let i = 0; i <= delays.length; i++) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    
-                    if (!response.ok) {
-                        const errorData = await response.json().catch(() => ({}));
-                        throw new Error(errorData?.error?.message || `HTTP ${response.status}`);
-                    }
-                    
-                    const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "ไม่สามารถดึงข้อมูลได้ในขณะนี้";
-                } catch (error) {
-                    lastError = error;
-                    if (i < delays.length) {
-                        await new Promise(res => setTimeout(res, delays[i]));
-                    } else {
-                        throw lastError; // โยน Error ออกไปเมื่อครบจำนวนครั้งที่กำหนด
-                    }
-                }
-            }
-        }
-
-        // --- AI Features ---
-        async function askAIToAdjustDifficulty(exerciseName, btnElement) {
-            const responseBox = btnElement.closest('.card-content').querySelector('.ai-response-box');
-            
-            // Toggle visibility if it already has content
-            if(responseBox.innerHTML !== "" && !responseBox.innerHTML.includes('ai-loading')) {
-                responseBox.classList.toggle('active');
-                return;
-            }
-
-            const originalText = btnElement.innerHTML;
-            btnElement.innerHTML = `<span class="ai-loading"></span> กำลังคิด...`;
-            btnElement.disabled = true;
-            responseBox.classList.add('active');
-            responseBox.innerHTML = `<span class="ai-loading"></span> กำลังวิเคราะห์ท่า ${exerciseName}...`;
-
-            const prompt = `ฉันกำลังฝึก Calisthenics ท่า "${exerciseName}" ช่วยแนะนำตัวเลือกเสริม 2 แบบ:\n1. ท่าที่ "ง่ายกว่า" (Regression) สำหรับมือใหม่ 1 ท่า\n2. ท่าที่ "ยากกว่า" (Progression) เพื่อเพิ่มความท้าทาย 1 ท่า\nอธิบายสั้นๆ เข้าใจง่าย เป็นภาษาไทย รูปแบบ Bullet point`;
-
-            try {
-                const aiText = await callGeminiAPI(prompt);
-                // Simple markdown to HTML parser
-                let formattedText = aiText
-                    .replace(/\n/g, '<br>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--accent);">$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
-                
-                responseBox.innerHTML = `<strong>✨ AI Coach Suggestion:</strong><br><br>${formattedText}`;
-            } catch (error) {
-                console.error("AI Error:", error);
-                responseBox.innerHTML = `<span style="color: #ef4444;">เกิดข้อผิดพลาด: ${error.message}</span><br><br><span style="color: #a1a1aa; font-size: 0.9em;">💡 <strong>คำแนะนำ:</strong> หากคุณใช้งานไฟล์นี้นอกเว็บไซต์ คุณจำเป็นต้องนำ Gemini API Key มาใส่ในตัวแปร <code>apiKey</code> บริเวณส่วนต้นของ Script ด้วยครับ (ค้นหาคำว่า <code>const apiKey = ""</code>)</span>`;
-            } finally {
-                btnElement.innerHTML = originalText;
-                btnElement.disabled = false;
-            }
-        }
-
-        async function generateAIMeal(btnElement) {
-            const resultBox = document.getElementById('ai-meal-result');
-            
-            const originalText = btnElement.innerHTML;
-            btnElement.innerHTML = `<span class="ai-loading"></span> AI กำลังเข้าครัว...`;
-            btnElement.disabled = true;
-            resultBox.classList.add('active');
-            resultBox.innerHTML = `<span class="ai-loading"></span> กำลังค้นหาเมนูโปรตีนสูงที่คุ้มค่าที่สุด...`;
-
-            const prompt = `ขอไอเดียอาหาร 1 มื้อ สำหรับคนเล่นเวท/Calisthenics (สาย Lean Bulk) ที่เน้นโปรตีนสูง ราคาประหยัด หาซื้อง่ายในประเทศไทย (เช่น ร้านอาหารตามสั่ง, ร้านสะดวกซื้อ) สุ่มเมนูแปลกใหม่ไม่ซ้ำจำเจ \nอธิบายเป็น bullet point ว่าเมนูคืออะไร สั่งยังไงให้ได้โปรตีนเยอะ และประเมินโปรตีนคร่าวๆ ให้ด้วย`;
-
-            try {
-                const aiText = await callGeminiAPI(prompt);
-                let formattedText = aiText
-                    .replace(/\n/g, '<br>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--accent);">$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
-                
-                resultBox.innerHTML = `<strong>✨ เมนู Lean Bulk ประจำวัน:</strong><br><br>${formattedText}`;
-            } catch (error) {
-                console.error("AI Error:", error);
-                resultBox.innerHTML = `<span style="color: #ef4444;">เกิดข้อผิดพลาด: ${error.message}</span><br><br><span style="color: #a1a1aa; font-size: 0.9em;">💡 <strong>คำแนะนำ:</strong> หากคุณใช้งานไฟล์นี้นอกเว็บไซต์ คุณจำเป็นต้องนำ Gemini API Key มาใส่ในตัวแปร <code>apiKey</code> บริเวณส่วนต้นของ Script ด้วยครับ (ค้นหาคำว่า <code>const apiKey = ""</code>)</span>`;
-            } finally {
-                btnElement.innerHTML = originalText;
-                btnElement.disabled = false;
-            }
-        }
-
-        // --- Workout Data ---
+        // ข้อมูลตารางการฝึก (คงเดิม)
         const workoutData = {
             1: {
                 id: 'mon',
@@ -1045,14 +858,9 @@
                                 <div class="card-title">
                                     <h3>${ex.name}</h3>
                                 </div>
-                                <div class="reps-and-ai">
-                                    <div class="reps-badge">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                        ${ex.reps}
-                                    </div>
-                                    <button class="ai-btn" onclick="askAIToAdjustDifficulty('${ex.name}', this)">
-                                        ✨ ปรับระดับความยาก (AI)
-                                    </button>
+                                <div class="reps-badge">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                    ${ex.reps}
                                 </div>
                             </div>
                             <div class="instructions">
@@ -1061,7 +869,6 @@
                                     ${instHtml}
                                 </ul>
                             </div>
-                            <div class="ai-response-box"></div>
                         </div>
                     </div>
                 `;
