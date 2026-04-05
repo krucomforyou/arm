@@ -590,7 +590,7 @@
 
     <script>
         // --- Gemini API Configuration ---
-        const apiKey = ""; // The execution environment provides the key at runtime
+        const apiKey = "AIzaSyCo_byoW3Jt0Vm7DcTsIOBxQ2ceiIRNTII"; // The execution environment provides the key at runtime
         
         async function callGeminiAPI(prompt) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
@@ -611,7 +611,8 @@
                     });
                     
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData?.error?.message || `HTTP ${response.status}`);
                     }
                     
                     const result = await response.json();
@@ -620,10 +621,11 @@
                     lastError = error;
                     if (i < delays.length) {
                         await new Promise(res => setTimeout(res, delays[i]));
+                    } else {
+                        throw lastError; // โยน Error ออกไปเมื่อครบจำนวนครั้งที่กำหนด
                     }
                 }
             }
-            throw lastError;
         }
 
         // --- AI Features ---
@@ -654,7 +656,8 @@
                 
                 responseBox.innerHTML = `<strong>✨ AI Coach Suggestion:</strong><br><br>${formattedText}`;
             } catch (error) {
-                responseBox.innerHTML = `<span style="color: #ef4444;">เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI กรุณาลองใหม่อีกครั้ง</span>`;
+                console.error("AI Error:", error);
+                responseBox.innerHTML = `<span style="color: #ef4444;">เกิดข้อผิดพลาด: ${error.message}</span><br><br><span style="color: #a1a1aa; font-size: 0.9em;">💡 <strong>คำแนะนำ:</strong> หากคุณใช้งานไฟล์นี้นอกเว็บไซต์ คุณจำเป็นต้องนำ Gemini API Key มาใส่ในตัวแปร <code>apiKey</code> บริเวณส่วนต้นของ Script ด้วยครับ (ค้นหาคำว่า <code>const apiKey = ""</code>)</span>`;
             } finally {
                 btnElement.innerHTML = originalText;
                 btnElement.disabled = false;
@@ -681,7 +684,8 @@
                 
                 resultBox.innerHTML = `<strong>✨ เมนู Lean Bulk ประจำวัน:</strong><br><br>${formattedText}`;
             } catch (error) {
-                resultBox.innerHTML = `<span style="color: #ef4444;">เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง</span>`;
+                console.error("AI Error:", error);
+                resultBox.innerHTML = `<span style="color: #ef4444;">เกิดข้อผิดพลาด: ${error.message}</span><br><br><span style="color: #a1a1aa; font-size: 0.9em;">💡 <strong>คำแนะนำ:</strong> หากคุณใช้งานไฟล์นี้นอกเว็บไซต์ คุณจำเป็นต้องนำ Gemini API Key มาใส่ในตัวแปร <code>apiKey</code> บริเวณส่วนต้นของ Script ด้วยครับ (ค้นหาคำว่า <code>const apiKey = ""</code>)</span>`;
             } finally {
                 btnElement.innerHTML = originalText;
                 btnElement.disabled = false;
