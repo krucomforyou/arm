@@ -590,9 +590,10 @@
 
     <script>
         // --- Gemini API Configuration ---
-        const apiKey = "AIzaSyCo_byoW3Jt0Vm7DcTsIOBxQ2ceiIRNTII"; // The execution environment provides the key at runtime
+        const apiKey = "AIzaSyCo_byoW3Jt0Vm7DcTsIOBxQ2ceiIRNTII"; // ปล่อยเป็นค่าว่างไว้หากคุณกำลังทดสอบบนเว็บไซต์นี้
         
         async function callGeminiAPI(prompt) {
+            // การใช้งานในเว็บนี้ (Canvas) จำเป็นต้องใช้โมเดล gemini-2.5-flash-preview-09-2025
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
